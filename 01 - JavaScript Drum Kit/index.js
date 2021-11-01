@@ -1,20 +1,12 @@
-const keys = document.querySelectorAll('.key');
-
 const triggerKey = (event, button, keypress, data) => {
-  if (event.key === keypress) {
-    if (button.dataset.key === data) {
+  if (event.key === keypress && button.dataset.key === data) {
       button.classList.add('playing');
-      const soundWord = button.querySelector('.sound').innerText;
-      const sound = new Audio(`sounds/${soundWord}.wav`);
-      sound.play();
-      setTimeout(() => {
-        button.classList.remove('playing');
-      }, 200);
+      new Audio(`sounds/${button.querySelector('.sound').innerText}.wav`).play();
+      setTimeout(() => { button.classList.remove('playing');}, 200);
     }
-  }
 };
 
-keys.forEach( (button) => {
+document.querySelectorAll('.key').forEach( (button) => {
   document.addEventListener('keypress', (event) => {
     triggerKey(event, button, 'a', '65');
     triggerKey(event, button, 's', '83');
