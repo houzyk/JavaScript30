@@ -6,7 +6,7 @@ searchForm.addEventListener('input', () => {
   fetch(endpoint)
     .then(response => response.json())
     .then((data) => {
-      const filteredCities = data.filter(city => city['city'].includes(searchFormQuery.value));
+      const filteredCities = data.filter(city => city.city.includes(searchFormQuery.value) || city.state.includes(searchFormQuery.value));
       if (filteredCities.length === 0) {
         suggestions.innerHTML = "";
         suggestions.insertAdjacentHTML('beforeend',
@@ -16,10 +16,11 @@ searchForm.addEventListener('input', () => {
         filteredCities.forEach((city) => {
           const name = city.city.replace(searchFormQuery.value, `<span class="hl">${searchFormQuery.value}</span>`);
           const state = city.state.replace(searchFormQuery.value, `<span class="hl">${searchFormQuery.value}</span>`);
+          const population = city.population.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
           suggestions.insertAdjacentHTML('beforeend',
           `<li>
             <span>${name}, ${state} </span>
-            <span class="population">${city.population}</span>
+            <span class="population">${population}</span>
           </li>`);
         });
       }
